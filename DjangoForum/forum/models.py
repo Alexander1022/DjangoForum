@@ -5,6 +5,7 @@ class User(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=30)
+    email = models.CharField(unique=True, required=True)
     followers = models.BigAutoField(editable=True, default=0)
     posts = models.BigAutoField(editable=True, default=0)
 
