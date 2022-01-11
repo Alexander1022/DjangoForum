@@ -2,8 +2,11 @@ from django.shortcuts import  render, redirect
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.auth import login
-from .forms import UserRegistrationForm
 from django.contrib.auth import login, authenticate, logout
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from .forms import UserRegistrationForm
 
 # Create your views here.
 
@@ -11,15 +14,6 @@ def index(request):
     return render(request, 'base.html')
 
 def login(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user = authenticate(request, username=username, password=password)
-
-    if user is not None:
-        login(request, user.username)
-
-    else:
-        return redirect('/login')
     return render(request, 'login.html')
 
 def logout(request):
@@ -30,22 +24,14 @@ def signup(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()
-            user.save()
-            username = request.POST.get('username')
-            email = request.POST.get('email')
-            password1 = request.POST.get('password1')
-            password2 = request.POST.get('password2')
-            user = authenticate(request, username=username, password=password1, password2=password2, email=email)
-            if user is not None:
-                login(request, user)
-                return redirect('index')
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('index')
     else:
         form = UserRegistrationForm()
-        
-    context = { 'form': form }
-    return render(request, 'signup.html', context)
+
+    return render(request, 'signup.html', {'form': form})
 
 def create_sub(request):
     return render(request, 'create_sub.html')

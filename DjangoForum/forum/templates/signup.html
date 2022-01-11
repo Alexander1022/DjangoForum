@@ -1,18 +1,22 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-<form method="post" action="{% url 'signup' %}">
-    {% csrf_token %}
-    <p><label for="nickname">Nickname</label>
-        <input id="nickname" type="text" name="nickname" maxlength="100" required></p>
-    <p><label for="email">Email:</label>
-        <input name="email" id="email" required></p>
-    <p><label for="password">Password:</label>
-        <input type="password" name="password1" id="password1" required></p>
-    <p><label for="password">Password:</label>
-        <input type="password" name="password2" id="password2" required></p>
-
-    <input type="submit" value="Sign Up">
-</form>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend> Create an account </legend>
+                {{ form | crispy }}
+            </fieldset>
+            <div>
+                <button type="submit"> Sign up </button>
+            </div>
+        </form>
+        <div>
+            <small>
+                Already have an account? <a href="login.html"> Log in </a>
+            </small>
+        </div>
+    </div>
 
 {% endblock %}
