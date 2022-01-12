@@ -14,6 +14,15 @@ def index(request):
     return render(request, 'base.html')
 
 def login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(request, username=username, password=password)
+
+    if user is not None:
+        login(request, user.username)
+
+    else:
+        return redirect('/login')
     return render(request, 'login.html')
 
 def logout(request):

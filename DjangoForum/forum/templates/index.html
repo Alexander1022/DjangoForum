@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if posts %}
+        {% for post in posts %}
+        <div>
+            <p>{{ post.posted_by }}</p>
+            <p>{{ post.date_posted }}</p>
+            <hr>
+            <p>{{ post.title }}</p>
+            <p>{{ post.content }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>There are not any posts yet</p>
+    {% endif %}
+    
+{% endblock content %}
