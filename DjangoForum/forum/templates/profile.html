@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div>
+        <h1>Your Profile</h1>
+        <div>
+        {% if user.image.url %}
+            <img src="{{ user.image.url }}">
+        {% else %}
+            <small>(No profile pic image)</small>
+        {% endif %}
+        <div>    
+            <h2>{{ user.username }}</h2>
+            <p>{{ user.email }}</p>
+        </div>
+        </div>
+    </div>
+{% endblock content %}

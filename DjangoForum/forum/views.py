@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth import login, authenticate, logout
-
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegistrationForm
@@ -11,23 +11,7 @@ from .forms import UserRegistrationForm
 # Create your views here.
 
 def index(request): 
-    return render(request, 'base.html')
-
-def login(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user = authenticate(request, username=username, password=password)
-
-    if user is not None:
-        login(request, user.username)
-
-    else:
-        return redirect('/login')
-    return render(request, 'login.html')
-
-def logout(request):
-    logout(request)
-    return render(request, 'logout.html')
+    return render(request, 'index.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -53,3 +37,7 @@ def create_comment(request):
 
 def all_subs(request):
     return render(request, 'all_subs.html')
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
