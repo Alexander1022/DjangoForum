@@ -1,9 +1,34 @@
+<<<<<<< Updated upstream
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Django Forum</title>
+    </head>
+
+    <body>
+        <h1>Logout Page</h1>
+    </body>
+</html>
+=======
 {% extends 'base.html' %}
 {% block content %}
-    <h2>You have been logged out</h2>
-    <div>
-        <small>
-            <a href="{% url 'login' %}">Log In Again</a>
-        </small>
+{% load static %}
+<div class="d-flex flex-column" id="content-wrapper">
+    <div id="content">
+        <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+            <div class="container-fluid">
+                <h1>༼ つ ಥ_ಥ ༽つ Bye Bye</h1>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                <h3 class="text-dark mb-1">You have been logged out.</h3>
+                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="{% url 'login' %}" style="background: #ff5700;"><strong>Log In Again</strong></a>
+            </div>
+        </div>
     </div>
+</div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
 {% endblock content %}
+>>>>>>> Stashed changes

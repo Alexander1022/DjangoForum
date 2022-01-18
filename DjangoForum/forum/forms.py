@@ -1,16 +1,17 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
 
-class UserRegistrationForm(UserCreationForm):
-    email = forms.EmailField()
+class UserRegistrationForm(forms.Form):
     username = forms.CharField(max_length=20)
+    email = forms.EmailField()
     password1 = forms.CharField(widget=forms.PasswordInput())
     password2 = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
+<<<<<<< Updated upstream
+        fields = ['username', 'email', 'password1', 'password2']
+=======
         fields = ['username', 'email', 'password1', 'password2']
 
 
@@ -23,7 +24,7 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-
     class Meta:
         model = Profile
         fields = ['image']
+>>>>>>> Stashed changes
