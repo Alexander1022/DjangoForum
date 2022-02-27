@@ -3,15 +3,12 @@ from django.contrib import admin
 from django.contrib import messages
 from django.contrib.auth import login
 from .forms import UserRegistrationForm
-<<<<<<< Updated upstream
 from django.contrib.auth import login, authenticate, logout
-
-=======
 from .models import Post
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (ListView,DetailView,CreateView,UpdateView,DeleteView)
->>>>>>> Stashed changes
+
 # Create your views here.
 
 def index(request): 
@@ -54,7 +51,6 @@ def signup(request):
     context = { 'form': form }
     return render(request, 'signup.html', context)
 
-<<<<<<< Updated upstream
 def create_sub(request):
     return render(request, 'create_sub.html')
 
@@ -66,7 +62,8 @@ def create_comment(request):
 
 def all_subs(request):
     return render(request, 'all_subs.html')
-=======
+
+
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -133,4 +130,3 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
->>>>>>> Stashed changes
