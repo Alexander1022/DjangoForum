@@ -1,34 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="d-flex flex-column" id="content-wrapper">
-        <div id="content">
-            <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
-                <div class="container-fluid">
-                    <h1>Posts ( ͠° ͟ʖ ͡°)</h1>
-                </div>
-            </nav>
-
-            <div class="container-fluid">
-                <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                    <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="{% url 'post-create' %}" style="background: #ff5700;"><strong>Create new post</strong></a>
-                </div>
-                <div class="row">
-                    {% if posts %}
-                        {% for post in posts %}
-                            <div class="col-md-6 col-xl-3 mb-4">
-                                <p><b>{{ post.title }}</b></p>
-                                <p>{{ post.content }}</p>
-                                <hr>
-                                <p>Постнато от: {{ post.author }}</p>
-                                <p>На: {{ post.date_posted }}</p>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p>There are not any posts yet</p>
-                    {% endif %}
-                </div>
-            </div>
+    {% if posts %}
+        {% for post in posts %}
+        <div>
+            <p>{{ post.posted_by }}</p>
+            <p>{{ post.date_posted }}</p>
+            <hr>
+            <p>{{ post.title }}</p>
+            <p>{{ post.content }}</p>
         </div>
-    </div>
+        {% endfor %}
+    {% else %}
+        <p>There are not any posts yet</p>
+    {% endif %}
     
 {% endblock content %}
