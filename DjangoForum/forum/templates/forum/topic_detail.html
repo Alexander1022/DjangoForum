@@ -9,10 +9,12 @@
             <p class="article-content">{{ object.content }}</p>
             {% if object.author == user %}
             <div>
-              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-              <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'topic-update' object.id %}">Update</a>
+              <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'topic-delete' object.id %}">Delete</a>
             </div>
           {% endif %}
+          <hr class="my-4">
+          <a class="btn btn-success btn-sm mt-1 mb-1" href="{% url 'post-create' object.id %}">Add Post</a> 
         </div>
         </div>
     </article> 

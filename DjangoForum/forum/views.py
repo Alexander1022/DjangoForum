@@ -2,13 +2,20 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
+from .models import Topic
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'topics': Topic.objects.all(),
     }
 
     return render(request, 'forum/home.html', context)
+
+class TopicListView(ListView):
+    model = Topic
+    template_name = 'forum/home.html'
+    context_object_name = 'topics'
+    ordering = ['-date_posted']
 
 class PostListView(ListView):
     model = Post
@@ -16,8 +23,19 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted']
 
+class TopicDetailView(DetailView):
+    model = Topic
+
 class PostDetailView(DetailView):
     model = Post
+
+class TopicCreateView(LoginRequiredMixin, CreateView):
+    model = Topic
+    fields = ['title', 'description']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -27,6 +45,20 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
+class TopicUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Topic
+    fields = ['title', 'description']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        topic = self.get_object()
+        if self.request.user == topic.author:
+            return True
+        return False
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
@@ -42,6 +74,16 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+
+class TopicDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Topic
+    success_url = '/'
+
+    def test_func(self):
+        topic = self.get_object()
+        if self.request.user == topic.author:
+            return True
+        return False
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
