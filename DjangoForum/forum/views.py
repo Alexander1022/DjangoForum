@@ -10,7 +10,7 @@ def home(request):
     }
 
     return render(request, 'forum/home.html', context)
-
+  
 class TopicListView(ListView):
     model = Topic
     template_name = 'forum/home.html'
@@ -37,6 +37,9 @@ class TopicCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+class PostDetailView(DetailView):
+    model = Post
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
@@ -44,7 +47,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
-
 
 class TopicUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Topic
@@ -73,7 +75,6 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
-
 
 class TopicDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Topic

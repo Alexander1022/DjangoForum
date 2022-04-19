@@ -30,6 +30,6 @@ class Post(models.Model):
         if self.topic_id is None:
             self.topic_id = self.topic_id
             self.save()
-
+      
     def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'pk': self.pk})   
+        return reverse('post-detail', kwargs={'pk': self.pk})        
