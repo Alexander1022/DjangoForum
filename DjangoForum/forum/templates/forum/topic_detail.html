@@ -15,6 +15,27 @@
           {% endif %}
           <hr class="my-4">
           <a class="btn btn-success btn-sm mt-1 mb-1" href="{% url 'post-create' object.id %}">Add Post</a> 
+          
+          <div class="posts mt-5">
+                <h1>Posts of {{ object.title }}</h1>
+                <hr class="my-4">
+
+            {% for post in posts %}
+                <div class="row post mb-4">
+                    <div class="col-4 offset-4 text-center">
+                        <a href="{% url 'post-detail' post.id %}">
+                            <h3 class="post_title">{{ post.title }}</h3>
+                        </a> 
+                        
+                        <p> by {{ post.author }} </p>
+                            <a href="{% url 'profile'  %}"></a>
+                        </a>
+                        <hr>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
         </div>
         </div>
     </article> 
