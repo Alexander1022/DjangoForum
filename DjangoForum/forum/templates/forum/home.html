@@ -1,15 +1,38 @@
 {% extends "forum/base.html" %}
 {% block content %}
-    {% for post in posts %}
-       <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.author }}</a>
-              <small class="text-muted">{{ post.date_posted | date:"F d Y" }}</small>
+  <div class="jumbotron">
+    <h1 class="display-4">Welcome to Django Forum</h1>
+    <p class="lead">This is a simple forum application built with Django.</p>
+    <hr class="my-4">
+    <p>This forum is a work in progress. It is not yet complete and is not intended for use in production.</p>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <a href="{% url 'topic-create' %}" class="btn btn-success btn-lg btn-block">Add Topic</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      {% for topic in topics %}
+        <div class="col-md-4">
+          <div class="card mt-5">
+            <div class="card-header">
+              <a class="h2" href="{% url 'topic-detail' topic.id %}">{{ topic.title }}</a>
+            </div>
+            <div class="card-body">
+              <p class="card-text">{{ topic.description }}</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Opened on {{ topic.date_posted | date:"F d Y" }} by {{ topic.author }}</small>
             </div>
             <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
           </div>
-        </article> 
-    {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
 {% endblock content %}

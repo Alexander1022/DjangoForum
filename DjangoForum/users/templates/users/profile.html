@@ -1,12 +1,33 @@
 {% extends "forum/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-      <div class="media">
-        <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
+<div class="card mt-5">
+  <div class="card-header">
+    <h2>{{ user.username }}</h2>
+    {% if user == request.user %}
+      <a href="#" class="btn btn-success">Edit Profile</a>
+    {% endif %}
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{ user.email }}</p>
+    <div>
+      {% for topic in topics %}
+        <div class="card mt-5">
+          <div class="card-header">
+            <a class="h2" href="{% url 'topic-detail' topic.id %}">{{ topic.title }}</a>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{ topic.content }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{ topic.date_posted | date:"F d Y" }} by {{ topic.author }}</small>
+          </div>
         </div>
-      </div>
+      {% endfor %}
     </div>
+  </div>
+  <div class="card-footer">
+    <small class="text-muted">Joined {{ user.date_joined | date:"F d Y" }}</small>
+  </div>
+</div>
 {% endblock content %}
