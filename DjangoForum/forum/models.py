@@ -9,27 +9,36 @@ class Topic(models.Model):
     date_posted = models.DateTimeField(default = timezone.now)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
 
+    def get_absolute_url(self):
+        return reverse('topic-detail', kwargs={'pk': self.pk})
+    
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('topic-detail', kwargs={'pk': self.pk})
+    def delete(self, *args, **kwargs):
+        posts = Post.objects.filter(topic_id = self.id)
+        for post in posts:
+            post.delete()
+        return super().delete(*args, **kwargs)
 
 class Post(models.Model):
     title = models.CharField(max_length = 100)
+    topic_id = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     content = models.TextField()
     date_posted = models.DateTimeField(default = timezone.now)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
-    topic_id = models.ForeignKey('Topic', on_delete = models.CASCADE, default=None)
 
     def __str__(self):
         return self.title
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.topic_id is None:
-            self.topic_id = self.topic_id
-            self.save()
       
     def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'pk': self.pk})        
+        return reverse('post-detail', kwargs={'pk': self.pk})
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
+    date_posted = models.DateTimeField(default = timezone.now)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.content
