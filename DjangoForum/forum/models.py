@@ -40,5 +40,8 @@ class Comment(models.Model):
     date_posted = models.DateTimeField(default = timezone.now)
     content = models.TextField()
 
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.post.pk})
+
     def __str__(self):
         return self.content
