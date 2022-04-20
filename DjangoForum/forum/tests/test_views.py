@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from forum.models import Post, Topic
+from forum.models import Post, Topic, Comment
 from django.contrib.auth import get_user_model
 
 class TestViews(TestCase):
@@ -27,6 +27,12 @@ class TestViews(TestCase):
             author = user
         )
 
+        self.comment = Comment.objects.create(
+            author = user,
+            post = self.post,
+            content = 'Comment 1'
+        )
+
     def test_home_GET(self):
         response = self.client.get(reverse('forum-home'))
 
@@ -44,3 +50,9 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'forum/topic_detail.html')
+
+    def test_comment_detail_GET(self):
+        response = self.client.get(reverse('comment-detail', args=[1]))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'forum/comment_detail.html')
